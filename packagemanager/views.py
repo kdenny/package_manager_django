@@ -23,11 +23,9 @@ class PackagesListView(APIView):
     def get(self, request, apartment_key='0'):
         if (apartment_key == '0'):
             packages = Package.objects.all().order_by('date_received')
-            print(packages)
         else:
             packages = Package.objects.filter(apartment_no=apartment_key).order_by('date_received')
             print(packages)
-            print(apartment_key)
 
         serializer = PackageReadSerializer(packages, many=True)
         return Response(serializer.data)
