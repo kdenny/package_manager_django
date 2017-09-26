@@ -24,5 +24,5 @@ class ResidentSerializer(serializers.ModelSerializer):
 class ApartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Apartment
-        fields = ('number', 'residents' )
+        fields = ('number', 'residents', 'packages' )
         depth = 1

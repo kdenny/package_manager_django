@@ -1,6 +1,6 @@
 import requests
 
-url = 'http://127.0.0.1:8000/packages/'
+url = 'http://packagerat.pythonanywhere.com/packages/'
 
 package_data = [{
 

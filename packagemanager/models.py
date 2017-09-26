@@ -28,7 +28,7 @@ class Resident(models.Model):
 class Package(models.Model):
     date_received = models.DateTimeField(auto_now_add=True)
     recipient = models.ForeignKey(Resident, related_name='packages', on_delete=models.CASCADE)
-    apartment_no = models.ForeignKey(Apartment, on_delete=models.CASCADE)
+    apartment_no = models.ForeignKey(Apartment, related_name='packages', on_delete=models.CASCADE)
     package_type = models.CharField(max_length=50)
     status = models.CharField(max_length=50, default='pending')
 

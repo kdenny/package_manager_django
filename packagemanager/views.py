@@ -12,16 +12,19 @@ from django.http import HttpResponse
 from packagemanager.models import Apartment, Resident, Package
 from packagemanager.serializers import PackageReadSerializer, PackageCreateSerializer, ResidentSerializer, ApartmentSerializer
 import os
+from pprint import pprint
 from urlparse import urlparse
-from twilio.rest.resources import Connection
-from twilio.rest.resources.connection import PROXY_TYPE_HTTP
 
-host, port = urlparse(os.environ["http_proxy"]).netloc.split(":")
-Connection.set_proxy_info(
-    host,
-    int(port),
-    proxy_type=PROXY_TYPE_HTTP,
-)
+
+# from twilio.rest.resources import Connection
+# from twilio.rest.resources.connection import PROXY_TYPE_HTTP
+#
+# host, port = urlparse(os.environ["http_proxy"]).netloc.split(":")
+# Connection.set_proxy_info(
+#     host,
+#     int(port),
+#     proxy_type=PROXY_TYPE_HTTP,
+# )
 
 from twilio.rest import TwilioRestClient
 
@@ -61,10 +64,36 @@ class PackagesListView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             #################### END POST RELATED METHODS ####################
 
+
+class PackagesByFloor(APIView):
+    def get(self, request):
+        packages = {}
+        for floor in xrange(1,5):
+            name = "floor_" + str(floor)
+            floor_packs = Package.objects.filter(apartment_no__number__startswith=str(floor)).order_by('apartment_no__number')
+            floor_packs_ser = PackageReadSerializer(floor_packs, many=True)
+            packages[name] = floor_packs_ser.data
+
+        return Response(packages)
+
+
 class ApartmentsListView(APIView):
 
     def get(self, request):
         apartments = Apartment.objects.all()
+        for floor in xrange(1,4):
+            print(floor)
+        third_floor = Package.objects.filter(apartment_no__number__startswith='3')
+        third_ser = PackageReadSerializer(third_floor, many=True)
+        packages = {
+            'first_floor' : [],
+            'second_floor' : [],
+            'third_floor' : third_ser.data,
+            'fourth_floor' : []
+        }
+        pprint(packages)
+        for p in third_floor:
+            print(p)
 
         serializer = ApartmentSerializer(apartments, many=True)
         return Response(serializer.data)
