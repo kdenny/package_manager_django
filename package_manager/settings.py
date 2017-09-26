@@ -25,9 +25,9 @@ SECRET_KEY = 'c@9jscmjz1)znnxmg$ct@!3ka8ec&_s)())av%&v%8$59g0aak'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1:8000', '127.0.0.1', 'localhost:8000']
+ALLOWED_HOSTS = ['127.0.0.1:8000', '127.0.0.1', 'localhost:8000', 'packagerat.pythonanywhere.com', 'http://packagerat.pythonanywhere.com', 'http://localhost:8100', '127.0.0.1:8100']
 
-
+CORS_ORIGIN_ALLOW_ALL = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -72,6 +72,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'package_manager.wsgi.application'
+
+
 
 
 # Database
@@ -128,10 +130,9 @@ USE_L10N = True
 
 USE_TZ = True
 
-CORS_ORIGIN_ALLOW_ALL = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '/home/packagerat/package_manager_django/static'
